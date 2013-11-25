@@ -9,10 +9,7 @@ E:\现代程序设计\homework-06\share_to_students\buaa_GO\obj\Debug\go1.pdb
 C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\go1.exe
 C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\go1.pdb
 C:\Users\Shone\Desktop\homework-06-master\buaa_GO\bin\Debug\go1.exe
-C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\go1.csprojResolveAssemblyReference.cache
-C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\Go_WinApp.GoBoard.resources
 C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\go1.Properties.Resources.resources
 C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\go1.csproj.GenerateResource.Cache
 C:\Users\Shone\Desktop\homework-06-master\buaa_GO\bin\Debug\go1.pdb
-C:\Users\Shone\Desktop\homework-06-master\buaa_GO\bin\Debug\go1.exe.CodeAnalysisLog.xml
-C:\Users\Shone\Desktop\homework-06-master\buaa_GO\bin\Debug\go1.exe.lastcodeanalysissucceeded
+C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\GoWinApp.GoBoard.resources

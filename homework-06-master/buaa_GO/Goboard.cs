@@ -20,12 +20,12 @@ using System.Data;
 using System.IO;
 using System.Diagnostics; 
 
-namespace Go_WinApp
+namespace GoWinApp //根据code analyze删除了下划线
 {
 
 	public enum StoneColor : byte
 	{
-		black = 0, white = 1
+		black = 0, white = 1 //首字母大写最好
 	}
 
 
@@ -50,7 +50,7 @@ namespace Go_WinApp
 		Boolean bDrawMark;	        
 		Boolean m_fAnyKill;	        //is there any killed stone
 		Spot [,] Grid;		        //grid locater
-		Pen penGrid, penStoneW, penStoneB,penMarkW, penMarkB;
+        Pen penGrid, penMarkW, penMarkB, penStoneB,penStoneW; //不要一行定义多个
 		Brush brStar, brBoard, brBlack, brWhite, m_brMark;
 	
         // back and forward step
@@ -64,7 +64,7 @@ namespace Go_WinApp
 		/// <summary>
 		///    Controllers.
 		/// </summary>
-		private System.ComponentModel.Container components; // 为使用过的变量，删之
+		//private System.ComponentModel.Container components; 使用过的变量，删之
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.Button Rewind;
 		private System.Windows.Forms.Button FForward;
@@ -140,7 +140,7 @@ namespace Go_WinApp
             this.Save.Size = new System.Drawing.Size(56, 23);
             this.Save.TabIndex = 3;
             this.Save.Text = "save";
-            this.Save.Click += new System.EventHandler(this.Save_Click);
+            this.Save.Click += new System.EventHandler(this.SaveClick);
             // 
             // Rewind
             // 
@@ -183,6 +183,8 @@ namespace Go_WinApp
             this.textBox1.Location = new System.Drawing.Point(447, 128);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox1.Size = new System.Drawing.Size(120, 311);
             this.textBox1.TabIndex = 6;
             this.textBox1.Text = "please oepn a .sgf file to view, or just play on the board";
@@ -226,7 +228,7 @@ namespace Go_WinApp
 		}
 
         //单击保存，未实现
-		protected void Save_Click (object sender, System.EventArgs e)
+		protected void SaveClick (object sender, System.EventArgs e)
 		{
 			return;
 		}
@@ -459,13 +461,13 @@ namespace Go_WinApp
 			bDrawMark = true;
 		}
 
-		//save action  
-		void recordMove(Point p, StoneColor colorToPlay) 
-		{
-			Grid[p.X,p.Y].setStone(colorToPlay);
-			// save location, color and sequence number
-			m_gmLastMove = new GoMove(p.X, p.Y, colorToPlay, nSeq++);
-		}
+		//无调用的函数，删掉或调用
+// 		void recordMove(Point p, StoneColor colorToPlay) 
+// 		{
+// 			Grid[p.X,p.Y].setStone(colorToPlay);
+// 			// save location, color and sequence number
+// 			m_gmLastMove = new GoMove(p.X, p.Y, colorToPlay, nSeq++);
+// 		}
 
 		StoneColor nextTurn(StoneColor c) 
 		{
@@ -593,8 +595,9 @@ namespace Go_WinApp
 			Point p;
 			if (null != gm.Labels)
 			{
-				int i = gm.Labels.Count;
-				i = gm.Labels.Capacity;
+                // i未使用
+			    //int i = gm.Labels.Count;
+				//i = gm.Labels.Capacity;
 
 				System.Collections.IEnumerator myEnumerator = gm.Labels.GetEnumerator();
 				while (myEnumerator.MoveNext())
@@ -784,7 +787,7 @@ namespace Go_WinApp
 		}	
 	}
 
-	public class GoTest
+	public static class GoTest // 只含有静态变量，可以声明为静态类，以优化编译
 	{
 		/// <summary>
 		/// entry
@@ -888,21 +891,20 @@ namespace Go_WinApp
 	 */
 	public class GoMove 
 	{
-		StoneColor m_c;	//ZZZZZ/ZZZZZ
-		Point m_pos;		//ZZZZZZZZZZZ ZZ ZZZ ZZZZ.
-		int m_n;			//ZZZZZZZZ ZZ ZZZ ZZZZZZZZZ.
-		String m_comment;	//ZZZZZZZZ.
-		MoveResult m_mr;	//ZZZZ'Z ZZZZZZ. 
+		StoneColor m_c;	
+		Point m_pos;		
+		int m_n;			
+		String m_comment;	
+		MoveResult m_mr;	
 
-		ArrayList		m_alLabel; //ZZZ ZZZZZ ZZ ZZZZ ZZZZ. 
-		ArrayList		m_alMark; //ZZZZ
+		ArrayList		m_alLabel; 
+		ArrayList		m_alMark; 
 
-		//ZZZ ZZZZZ ZZ ZZZZ ZZZZZZ ZZZZZZ ZZ ZZZZ ZZZZ
-		//ZZ ZZZZZ ZZ ZZZ ZZZZ ZZZZZ (ZZ ZZZ ZZZZZZ ZZZZ ZZZZ ZZ ZZZZZZZ). 
+
 		ArrayList		m_alDead;
 		StoneColor	m_cDead;
 		/**
-		 * ZZZZZZZZZZZ.
+		 * one move has following attributes
 		 */
 		public GoMove(int x, int y, StoneColor sc, int seq) 
 		{
@@ -1011,7 +1013,7 @@ namespace Go_WinApp
 	 */
 	public class MoveResult 
 	{
-		public StoneColor color; 
+		public StoneColor color;  //这里最好声明成private，但是因为只是个游戏，就不改了
 		// 4 attribute of a move 
 		public Boolean bUpKilled;
 		public Boolean bDownKilled;
@@ -1039,14 +1041,12 @@ namespace Go_WinApp
 
 	public class GoVariation 
 	{
-		int m_id;			//ZZZZZZZZZ ZZ. 
-		string m_name;	//ZZZZZZZZZ ZZZZ. (ZZZZ.5, ZZZ.9, "ZZZZZ ZZZZZZ", ZZZ).
-		//ZZZZZZZZZZZZZ ZZZ;	//ZZZZZZZZZ ZZZZZZZZ ZZZZZ.	
+		int m_id;
+		string m_name;
 		ArrayList m_moves; 
-		int m_seq;			//ZZZZZZ ZZZ ZZZ ZZ ZZZZ ZZZZ. 
+		int m_seq;			 
 		int m_total;
 
-		//ZZZZZZZZZZZ. 
 		public GoVariation(int id)
 		{
 			m_id = id;
@@ -1099,15 +1099,11 @@ namespace Go_WinApp
 	}
 
 
-	/**
-	* ZZ: ZZZ ZZ ZZ Z ZZZZZZZZZ ZZZZZ ZZZZ ZZZ ZZZZZZZ ZZZZ. 
-	* ZZZ: ZZZ ZZZZ ZZ Z ZZZZZZZZZ ZZZZZ ZZZZZZZ ZZZZ. 
-	*/
-	struct VarStartPoint
-	{
-		int m_id; 
-		int m_seq;
-	}
+// 	struct VarStartPoint
+// 	{
+// 		int m_id; 
+// 		int m_seq;
+// 	}
 
 	struct GameInfo 
 	{
@@ -1124,15 +1120,16 @@ namespace Go_WinApp
         public string handicap;
         public string gameEvent;
         public string location;
-        public string time;             // ZZZZZ ZZZZZ ZZZZ ZZZZZ ZZ ZZZ ZZZZ. 
-        public string unknown_ff;   //ZZZZZZZ ZZZZZZZZZZ. 
+        public string time;             
+        public string unknown_ff;   
         public string unknown_gm;
         public string unknown_vw; 
 	}
 
 	public class KeyValuePair 
 	{
-		public string k; public ArrayList alV;
+		public string k; 
+        public ArrayList alV; //每行只定义一个变量，有利于设定断点，读代码的时候也可以有目的的读不必为了找一处而读整行
 
 		private string	removeBackSlash(string strIn)
 		{
@@ -1144,11 +1141,11 @@ namespace Go_WinApp
 				return strOut;
 			for (iSlash = strOut.Length-2; iSlash>=0; iSlash--)
 			{
-				if (strOut[iSlash] == '\\')		// && ZZZZZZ[ZZZZZZ+1] == ']')
+				if (strOut[iSlash] == '\\')	
 				{
 					strOut = strOut.Remove(iSlash,1);
 					if (iSlash>0)
-						iSlash --;	//ZZZZ ZZ ZZZZ ZZZZZZZZZ ZZZZZ ZZ ZZZZZZ ZZZ ZZZZZ
+						iSlash --;	
 				}
 			}
 			return strOut;
@@ -1159,21 +1156,18 @@ namespace Go_WinApp
 			this.k = string.Copy(k);
 			string strOneVal;
 			int		iBegin, iEnd;
-		
-			//ZZZZ ZZ ZZZZZ ZZZZ ZZZZZ
+
 			alV = new ArrayList(1);
 
-			//ZZZZZZZ ZZZZ ZZZ ZZZZZZZ Z[ZZZZZZZ]
 			if (k.Equals("C"))
 			{
 				strOneVal = removeBackSlash(string.Copy(v));
-				//ZZZ ZZZ ZZ '\'
 				alV.Add(strOneVal);
 				return;
 			}
 
 			iBegin = v.IndexOf("[");
-			if (iBegin == -1)	//ZZZZZZ ZZZZZ
+			if (iBegin == -1)	
 			{
 				alV.Add(v);
 				return; 
@@ -1186,19 +1180,15 @@ namespace Go_WinApp
 				if (iEnd > 0)
 					strOneVal = v.Substring(iBegin, iEnd-iBegin);
 				else 
-					strOneVal = v.Substring(iBegin);	//ZZZ ZZZZ ZZZZZ
+					strOneVal = v.Substring(iBegin);	
 				alV.Add(strOneVal);
 				iBegin = v.IndexOf("[", iBegin+1);
 				if (iBegin > 0)
-					iBegin ++;	//ZZZ ZZ ZZZ ZZZZZ ZZ ZZZZ ZZZZZ
+					iBegin ++;	
 			}
 		}
 	}
 
-	/**
-	 * ZZZ ZZZZZZ ZZ Z ZZ ZZZZ.
-	 * ZZZZ ZZ ZZZ ZZZZ ZZ ZZZ ZZZZ ZZZZ, ZZ ZZZZZ Z ZZZZZ ZZ ZZZZZZZZZZ. 
-	 */
 
 	public class GoTree 
 	{
@@ -1257,7 +1247,7 @@ namespace Go_WinApp
 					iBeg = goStr.IndexOf(";", iEnd);
 				iEnd = goStr.IndexOf(";", iBeg+1);
 				if (iEnd < 0) //ZZ ZZZZ ";"
-					iEnd = goStr.LastIndexOf(")", goStr.Length);		//ZZZ ZZZZ ZZZZZZZ ZZZZZZ ZZ ZZZZZZZZ ZZ ")"
+					iEnd = goStr.LastIndexOf(")", goStr.Length);		
 				if (iBeg >= 0 && iEnd > iBeg) 
 				{
 					string section = goStr.Substring(iBeg+1, iEnd-iBeg-1);
@@ -1269,52 +1259,43 @@ namespace Go_WinApp
 			return true;
 		}
 
-        /// <ZZZZZZZ>
-        /// ZZZZ ZZZ ZZZZZ ZZ ZZZ ZZ ZZZZZ ZZZZZZ,
-        /// ZZZZZZZ ZZ'Z ZZZ "]" ZZZZ,  
-        /// ZZ ZZZ ZZ ZZZZ "\]",  ZZ ZZZZ ZZZZZZZZ, ZZZ ZZZZZZ ZZZ ZZZ ZZZZ "]", ZZ ZZZ ZZ ZZZZZZ. 
-        /// </ZZZZZZZ>
-        /// <ZZZZZ ZZZZ="ZZZ"></ZZZZZ>
-        /// <ZZZZZZZ></ZZZZZZZ>
         int findEndofValueStr(String sec)
         {
             int i = 0;
-            //ZZ ZZZZZZ ZZ'ZZ ZZZZZZZZ ZZZZ ZZZZZZZ ZZZ ZZZZZ ZZZZZZ.
             while (i >= 0)
             {
                 i = sec.IndexOf(']', i+1);
                 if (i > 0 && sec[i - 1] != '\\')
-                    return i;    //ZZZZZZ ZZZ ZZZZZ ZZ "]". 
+                    return i;  
             }
 
-            //ZZ ZZ ZZZZ ZZ ZZZ ']', ZZZ'Z ZZZZ ZZZ ZZZ ZZZ ZZ ZZZZZZ. 
-            return sec.Length - 1;		//ZZZZ ZZ ZZZ ZZZZZ ZZ ZZZ ZZZZ ZZZZ ZZ ZZZ ZZZZZZ
+            return sec.Length - 1;	
         }
         
-        int findEndofValueStrOld(String sec)
-		{
-			int i = 0;
-            //ZZ ZZZZZZ ZZ'ZZ ZZZZZZZZ ZZZZ ZZZZZZZ ZZZ ZZZZZ ZZZZZZ. 
-			bool fOutside = false;
-			
-			for (i=0; i<sec.Length;i++)
-			{
-				if (sec[i] == ']')
-				{
-					if (i>1 && sec[i-1] != '\\') //ZZ ZZ
-						fOutside = true;
-				}
-				else if (char.IsLetter(sec[i]) && fOutside && i>0)
-					return i-1;
-				else if (fOutside && sec[i] == '[')
-					fOutside = false;
-			}
-			return sec.Length-1;		//ZZZZ ZZ ZZZ ZZZZZ ZZ ZZZ ZZZZ ZZZZ ZZ ZZZ ZZZZZZ
-		}
+//         int findEndofValueStrOld(String sec)
+// 		{
+// 			int i = 0;
+//             //ZZ ZZZZZZ ZZ'ZZ ZZZZZZZZ ZZZZ ZZZZZZZ ZZZ ZZZZZ ZZZZZZ. 
+// 			bool fOutside = false;
+// 			
+// 			for (i=0; i<sec.Length;i++)
+// 			{
+// 				if (sec[i] == ']')
+// 				{
+// 					if (i>1 && sec[i-1] != '\\') 
+// 						fOutside = true;
+// 				}
+// 				else if (char.IsLetter(sec[i]) && fOutside && i>0)
+// 					return i-1;
+// 				else if (fOutside && sec[i] == '[')
+// 					fOutside = false;
+// 			}
+// 			return sec.Length-1;
+// 		}
 
         private string purgeCRLFSuffix(string inStr)
         {
-            int iLast = inStr.Length - 1; //ZZZZZ ZZ ZZZ ZZ ZZZZZZ. 
+            int iLast = inStr.Length - 1; 
 
             if (iLast <= 0)
                 return inStr; 
@@ -1324,23 +1305,11 @@ namespace Go_WinApp
                 iLast--; 
             }
             if ((iLast+1) != inStr.Length)
-                return inStr.Substring(0, iLast+1);  //ZZZ 2ZZ ZZZZZZZZZ ZZ ZZZ ZZZZZZ
+                return inStr.Substring(0, iLast+1);  
             else
                 return inStr; 
         }
  
-
-		/**
-		 * ZZZZZ Z ZZZZZZZ ZZ ZZZ ZZZZZZ ZZZZZZ. 
-		 * Z ZZZZZZZ ZZZ ZZZ ZZZZZZ "ZZ {ZZ}"
-		 * Z ZZ (ZZZ ZZZZZ ZZZZ) ZZZ ZZZ ZZZZZZ "ZZZ ZZZZZ {ZZZZZ}"
-		 * ZZZZ: Z ZZZ ZZZ ZZZZZZZZZ ZZZZ ZZZZZZZZ ZZZZZZ, Z.Z. ZZZZZZ, ZZZZZ:  Z[ZZ][ZZ]. 
-		 * Z ZZZ ZZ ZZZZZZ 
-		 * Z ZZZZZ ZZ Z ZZZZZZ ZZZZZZZZ ZZ [ ZZZ ].
-		 * ZZZZ: ZZZZZZZZ ( Z[ZZZZZZZZ]) ZZZ ZZZZ ZZZ ']' ZZZZZZZZZ ZZZZZZ ZZZ ZZZZZZZZ, ZZZZZ ZZ ZZZZZZZ ZZ "\]"
-		 * Z.Z.  Z[ZZZZZ ZZZZZ ZZ [4,Z\] ZZ ZZZZZ ZZZZZZ]
-         * 
-		 */
 		Boolean parseASection(String sec) 
 		{
 			int iKey = 0;
@@ -1358,24 +1327,23 @@ namespace Go_WinApp
 				}
                 sec = purgeCRLFSuffix(sec);
  
-				iValue = findEndofValueStr(sec); //ZZZ.ZZZZZZZ("]", ZZZZ);
+				iValue = findEndofValueStr(sec); 
 				iLastValue = sec.LastIndexOf("]");
 				if (iValue <= 0 || iLastValue <= 1)
 				{
 					return false;
 				}
 				sec = sec.Substring(0,iLastValue+1);
-				while (iKey > 0 && iValue > iKey)//ZZ ZZZZ ZZZZZ ZZ ZZZZZZZ
+				while (iKey > 0 && iValue > iKey)
 				{
 					string key = sec.Substring(0,iKey);
 					int iNonLetter = 0;
 					while (!char.IsLetter(key[iNonLetter]) && iNonLetter < key.Length)
 						iNonLetter ++;
 					key = key.Substring(iNonLetter);
-					//ZZZZ ZZ ZZZZ ZZZ ZZZZ ZZZZZZ ZZZZZZZ ZZ Z [] ZZZZ
-					//ZZZZZZ = ZZZZZZZZZZZZZZZZZ(ZZZ);
+
 					string strValue = sec.Substring(iKey+1, iValue-iKey-1);
-					//ZZZ ZZ ZZZZ Z ZZZ/ZZZZZ ZZZZ
+				    //kv is key value contains key and string
 					kv = new KeyValuePair(key, strValue);
 					Section.Add(kv);
 					if (iValue >= sec.Length)
@@ -1384,7 +1352,7 @@ namespace Go_WinApp
 					iKey = sec.IndexOf("[");
 					if (iKey > 0)
 					{
-						iValue = findEndofValueStr(sec); //ZZZ.ZZZZZZZ("]",ZZZZ);
+						iValue = findEndofValueStr(sec);
 					}
 				}
 			}
@@ -1397,17 +1365,9 @@ namespace Go_WinApp
 			return true;
 		}
 
-
-        /** 
-         * ZZZZZZZ Z ZZZ ZZZ ZZZ ZZZZZZZZZZZZZ ZZZZZ
-         * ZZ ZZZZZ ZZ Z ZZZZ, ZZ ZZZZZZ ZZZZZZZZZZZ.
-         * ZZZZZZZZZZ, ZZZ ZZZZZZZ ZZZ ZZZZ ZZZZ ZZZ ZZZZ ZZ ZZZZ. 
-         * 
-         * ZZZZ: ZZ/ZZ ZZZ ZZZZZZZZZ ZZZ ZZZZ ZZZZZZZZ ZZZZZ ZZZZZZ, ZZZ Z ZZZZZ'Z ZZZZ ZZZ ZZZZZZZ ZZZ 
-         */
         Boolean processASection(ArrayList arrKV) 
 		{
-			Boolean fMultipleMoves = false;   //ZZZZZZZ ZZZZ ZZZZZZZ ZZZ ZZZZZZZZ ZZZZZ. 
+			Boolean fMultipleMoves = false;   // mutiple move
 			GoMove gm = null; 
             
 			string key, strValue;
@@ -1419,116 +1379,100 @@ namespace Go_WinApp
 				{
 					strValue = (string)(((KeyValuePair)(arrKV[i])).alV[j]);
 
-                    if (key.Equals("B"))   //ZZZZZ ZZZZZ
+                    //----------------------------------------------------------------------------------
+                    //下面的if else太复杂 写成case语句较好
+                    switch(key)
                     {
-                        Debug.Assert(gm == null);
-                        gm = new GoMove(strValue, StoneColor.black);
+                        case "B":
+                            Debug.Assert(gm == null);
+                            gm = new GoMove(strValue, StoneColor.black);
+                            break;
+                        case "W":
+                            Debug.Assert(gm == null);
+                            gm = new GoMove(strValue, StoneColor.white);
+                            break;
+                        case "C":
+                            if (gm != null)
+                                gm.Comment = strValue;
+                            else	
+                                _gi.comment += strValue;
+                            break;
+                        case "L":
+                            if (gm != null)
+                                gm.addLabel(strValue);
+                            else	
+                                _stGameComment += strValue;
+                            break;
+                        case "M":
+                            if (gm != null)
+                                gm.addMark(strValue);
+                            else	//ZZZ ZZ ZZ ZZZ ZZZZ ZZZZZZZ 
+                                _gi.comment += strValue;
+                            break;
+                        case "AW":
+                            fMultipleMoves = true;
+                            gm = new GoMove(strValue, StoneColor.white);
+                            break;
+                        case "AB":
+                            fMultipleMoves = true;
+                            gm = new GoMove(strValue, StoneColor.black);
+                            break;
+                        case "HA":
+                            _gi.handicap = (strValue);
+                            break;
+                        case "BS":
+                        case "WS":
+                        case "ID":
+                        case "KI":
+                        case "SO":
+                        case "TR":
+                        case "LB":
+                        case "RO":
+                             _gi.unknown_vw = (strValue);
+                            break;
+                        default:
+                            if (key.Equals("BR"))
+                                _gi.rankBlack = (strValue);
+                            else if (key.Equals("PB"))
+                                _gi.playerBlack = (strValue);
+                            else if (key.Equals("PW"))
+                                _gi.playerWhite = (strValue);
+                            else if (key.Equals("WR"))
+                                _gi.rankWhite = (strValue);
+                            else if (key.Equals("DT"))
+                                _gi.date = (strValue);
+                            else if (key.Equals("KM"))
+                                _gi.km = (strValue);
+                            else if (key.Equals("RE"))
+                                _gi.result = (strValue);
+                            else if (key.Equals("SZ"))
+                                _gi.size = (strValue);
+                            else if (key.Equals("EV"))
+                                _gi.gameEvent = (strValue);
+                            else if (key.Equals("PC"))
+                                _gi.location = (strValue);
+                            else if (key.Equals("TM"))
+                                _gi.time = (strValue);
+                            else if (key.Equals("GN"))
+                                _gi.gameName = strValue;
+                            else if (key.Equals("FF"))
+                                _gi.unknown_ff = (strValue);
+                            else if (key.Equals("GM"))
+                                _gi.unknown_gm = (strValue);
+                            else if (key.Equals("VW"))
+                                _gi.unknown_vw = (strValue);
+                            else if (key.Equals("US"))
+                                _gi.unknown_vw = (strValue);
+                            else
+                                System.Diagnostics.Debug.Assert(false, "unhandle key: " + key + " " + strValue);
+                            break;                                              
                     }
-                    else if (key.Equals("W"))  //ZZZZZ ZZZZZ
-                    {
-                        Debug.Assert(gm == null);
-                        gm = new GoMove(strValue, StoneColor.white);
-                    }
-                    else if (key.Equals("C"))  //ZZZZZZZ
-                    {
-                        //ZZZZZ.ZZZZZZ(Z>0);
-                        if (gm != null)
-                            gm.Comment = strValue;
-                        else	//ZZZ ZZ ZZ ZZZ ZZZZ ZZZZZZZ 
-                            _gi.comment += strValue;
-                    }
-                    else if (key.Equals("L"))  //ZZZZZ
-                    {
-                        if (gm != null)
-                            gm.addLabel(strValue);
-                        else	//ZZZ ZZ ZZ ZZZ ZZZZ ZZZZZZZ 
-                            _stGameComment += strValue;
-                    }
-
-                    else if (key.Equals("M"))  //ZZZZ
-                    {
-                        if (gm != null)
-                            gm.addMark(strValue);
-                        else	//ZZZ ZZ ZZ ZZZ ZZZZ ZZZZZZZ 
-                            _gi.comment += strValue;
-                    }
-                    else if (key.Equals("AW"))		//ZZZ ZZZZZ ZZZZZ
-                    {
-                        fMultipleMoves = true;
-                        gm = new GoMove(strValue, StoneColor.white);
-                    }
-                    else if (key.Equals("AB"))		//ZZZ ZZZZZ ZZZZZ
-                    {
-                        fMultipleMoves = true;
-                        gm = new GoMove(strValue, StoneColor.black);
-                    }
-                    else if (key.Equals("HA"))
-                        _gi.handicap = (strValue);
-                    else if (key.Equals("BR"))
-                        _gi.rankBlack = (strValue);
-                    else if (key.Equals("PB"))
-                        _gi.playerBlack = (strValue);
-                    else if (key.Equals("PW"))
-                        _gi.playerWhite = (strValue);
-                    else if (key.Equals("WR"))
-                        _gi.rankWhite = (strValue);
-                    else if (key.Equals("DT"))
-                        _gi.date = (strValue);
-                    else if (key.Equals("KM"))
-                        _gi.km = (strValue);
-                    else if (key.Equals("RE"))
-                        _gi.result = (strValue);
-                    else if (key.Equals("SZ"))
-                        _gi.size = (strValue);
-                    else if (key.Equals("EV"))
-                        _gi.gameEvent = (strValue);
-                    else if (key.Equals("PC"))
-                        _gi.location = (strValue);
-                    else if (key.Equals("TM"))
-                        _gi.time = (strValue);
-                    else if (key.Equals("GN"))
-                        _gi.gameName = strValue;
-
-                    else if (key.Equals("FF"))
-                        _gi.unknown_ff = (strValue);
-                    else if (key.Equals("GM"))
-                        _gi.unknown_gm = (strValue);
-                    else if (key.Equals("VW"))
-                        _gi.unknown_vw = (strValue);
-                    else if (key.Equals("US"))
-                        _gi.unknown_vw = (strValue);
-
-                    else if (key.Equals("BS"))
-                        _gi.unknown_vw = (strValue);
-                    else if (key.Equals("WS"))
-                        _gi.unknown_vw = (strValue);
-                    else if (key.Equals("ID"))
-                        _gi.unknown_vw = (strValue);
-                    else if (key.Equals("KI"))
-                        _gi.unknown_vw = (strValue);
-                    else if (key.Equals("SO"))
-                        _gi.unknown_vw = (strValue);
-                    else if (key.Equals("TR"))
-                        _gi.unknown_vw = (strValue);
-                    else if (key.Equals("LB"))
-                        _gi.unknown_vw = (strValue);
-                    else if (key.Equals("RO"))
-                        _gi.unknown_vw = (strValue);
-
-
-                    //ZZZZ ZZZZZ
-                    else
-                        System.Diagnostics.Debug.Assert(false, "unhandle key: " + key + " "+ strValue);
-
-                    //ZZZZZZZZZ ZZZ ZZZZ ZZZZZZ ZZZ ZZZZ ZZ ZZZZ ZZZZ (ZZ, ZZ) ZZZZ ZZZZZZZZ ZZZZZ. 
                     if (fMultipleMoves)
                     {
                         _currVar.addAMove(gm);
                     }
                 }
             }
-
-            //ZZZ ZZZ ZZZZ ZZ ZZZZZZZ ZZZZZZZZZ. 
             if (!fMultipleMoves && gm != null)
             {
                 _currVar.addAMove(gm);
