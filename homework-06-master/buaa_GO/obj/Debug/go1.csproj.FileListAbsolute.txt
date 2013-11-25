@@ -13,3 +13,4 @@ C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\go1.Properties.Resou
 C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\go1.csproj.GenerateResource.Cache
 C:\Users\Shone\Desktop\homework-06-master\buaa_GO\bin\Debug\go1.pdb
 C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\GoWinApp.GoBoard.resources
+C:\Users\Shone\Desktop\homework-06-master\buaa_GO\obj\Debug\go1.csprojResolveAssemblyReference.cache

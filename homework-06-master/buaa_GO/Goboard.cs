@@ -409,15 +409,35 @@ namespace GoWinApp //根据code analyze删除了下划线
 		}
 
 		/*
-		 * ZZZZ ZZZ ZZZZ ZZ ZZZZ ZZZ ZZZZ ZZZZZZZZZ ZZ ZZZZ ZZZZZZ ZZZZ ZZZZ ZZ ZZZZZZ. 
-		 * ZZZZ ZZ ZZ:
-		 * 	1. ZZZZZZ ZZZ ZZZZZZZ ZZZZ ZZZZ ZZZ ZZZZZ
-		 *  1.1 ZZZZ ZZZZZZ ZZZ "ZZZZZZZZ" ZZZZZZZZZZ
+		 * play the move so that situation reverted to before this move
+		 * to do:
+		 * 	1. remove current move
+		 *  1.1 remove its highlight
 		 *	2. store the stones got killed by current move
-		 *  3. ZZZZZZZZZZ ZZZ ZZZ "ZZZZZZZZ"
+		 *  3. update the highlight
 		 */
 		public void playPrev(GoMove gm)
 		{
+            Point p = gm.Point;
+            m_colorToPlay = gm.Color;  
+
+            clearLabelsAndMarksOnBoard();
+            m_gmLastMove = gameTree.peekPrev();
+
+            bDrawMark = true;
+            Grid[p.X, p.Y].die();
+            if (gm.DeadGroup != null)
+            {
+                foreach (Point pt in gm.DeadGroup)
+                {
+                    Grid[pt.X, pt.Y].setStone(gm.DeadGroupColor);
+                }
+            }
+            optRepaint();
+
+            textBox1.Clear();
+            textBox1.AppendText(gm.Comment);
+
             return; 
         }
 
